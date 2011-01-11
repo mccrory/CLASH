@@ -1,0 +1,23 @@
+#!/usr/bin/env jruby
+
+# encoding: utf-8
+
+require "rubygems"
+require "pp"
+require "readline"
+require File.join(File.dirname(__FILE__),'..','lib','clash','application.rb')
+
+require "optparse"
+
+options = {}
+
+opts = OptionParser.new do |opts|
+  opts.on("-S", "--Server SERVER", "Enter the IP or DNS Name of the Server") { |option| options[:Server] = option }
+  opts.on("-U", "--Username USERNAME", "Enter the Username") { |option| options[:Username] = option }
+  opts.on("-P", "--Password PASSWORD", "Enter the Password") { |option| options[:Password] = option }
+  opts.on("-p", "--Protocol PROTOCOL", "Enter the http or https Protocol") {|option| options[:Protocol] = option }
+  opts.on("-r", "--Port PORT", "Enter the Port number") { |option| options[:Port] = option.to_i }
+end.parse!(ARGV)
+
+clash=Clash::Application.new options
+clash.run
